@@ -1,77 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grofers Checkout</title>
-  <style>
-    table, td, th {
-      border: 1px solid black;
-      border-collapse: collapse;
-      padding: 8px;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Sum Prices</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <table id="grocery-table">
-    <tr>
-      <th>Item</th>
-      <th>Price</th>
-    </tr>
-    <tr class="item">
-      <td>Apple</td>
-      <td class="price" contenteditable="true">10</td>
-    </tr>
-    <tr class="item">
-      <td>Banana</td>
-      <td class="price" contenteditable="true">15</td>
-    </tr>
-    <tr class="item">
-      <td>Orange</td>
-      <td class="price" contenteditable="true">25</td>
-    </tr>
-  </table>
 
-  <div id="ans" style="margin-top: 15px; font-weight: bold;"></div>
+  <h1>Editable Price Calculator</h1>
 
-  <script>
-    // Create "Get Total Price" button dynamically
-    const getSumBtn = document.createElement("button");
-    getSumBtn.append("Get Total Price");
-    document.body.appendChild(getSumBtn);
+  <div class="price-container">
+    <div class="price" contenteditable="true">0</div>
+    <div class="price" contenteditable="true">0</div>
+    <div class="price" contenteditable="true">0</div>
+    <div class="price" contenteditable="true">0</div>
+    <div class="price" contenteditable="true">0</div>
+  </div>
 
-    // Function to calculate total price
-    const getSum = () => {
-      const priceElements = document.querySelectorAll(".price");
-      let total = 0;
+  <button id="calc">Calculate Total</button>
 
-      // Sum all prices (auto converts text to number)
-      priceElements.forEach((el) => {
-        const value = parseFloat(el.textContent.trim()) || 0;
-        total += value;
-      });
+  <div id="ans"></div>
 
-      // Show result in #ans
-      const ansDiv = document.getElementById("ans");
-      ansDiv.textContent = total;
-
-      // Optional: also append a new row to the table
-      const table = document.getElementById("grocery-table");
-      let existingTotalRow = document.getElementById("total-row");
-      if (existingTotalRow) {
-        existingTotalRow.remove(); // remove old total row if it exists
-      }
-
-      const totalRow = document.createElement("tr");
-      totalRow.id = "total-row";
-      const totalCell = document.createElement("td");
-      totalCell.colSpan = 2;
-      totalCell.textContent = "Total Price: " + total;
-      totalRow.appendChild(totalCell);
-      table.appendChild(totalRow);
-    };
-
-    getSumBtn.addEventListener("click", getSum);
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
