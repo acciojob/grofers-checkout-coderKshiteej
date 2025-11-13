@@ -2,46 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Grofers Checkout</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 50px;
-    }
-    table {
-      margin: auto;
+    table, td, th {
+      border: 1px solid black;
       border-collapse: collapse;
-      width: 60%;
-    }
-    th, td {
-      border: 1px solid #999;
-      padding: 10px;
-      text-align: center;
-    }
-    th {
-      background-color: #f2f2f2;
-    }
-    td.price {
-      cursor: text;
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    #ans {
-      margin-top: 20px;
-      font-weight: bold;
-      font-size: 18px;
+      padding: 8px;
     }
   </style>
 </head>
 <body>
-
-  <h1>Grofers Checkout</h1>
   <table id="grocery-table">
     <tr>
       <th>Item</th>
@@ -53,40 +24,54 @@
     </tr>
     <tr class="item">
       <td>Banana</td>
-      <td class="price" contenteditable="true">20</td>
+      <td class="price" contenteditable="true">15</td>
     </tr>
     <tr class="item">
-      <td>Milk</td>
-      <td class="price" contenteditable="true">30</td>
-    </tr>
-    <tr class="item">
-      <td>Bread</td>
-      <td class="price" contenteditable="true">40</td>
-    </tr>
-    <tr class="item">
-      <td>Eggs</td>
-      <td class="price" contenteditable="true">50</td>
+      <td>Orange</td>
+      <td class="price" contenteditable="true">25</td>
     </tr>
   </table>
 
-  <button id="getSum">Get Total Price</button>
-
-  <div id="ans"></div>
+  <div id="ans" style="margin-top: 15px; font-weight: bold;"></div>
 
   <script>
-    const getSumBtn = document.getElementById("getSum");
-    const prices = document.querySelectorAll(".price");
-    const ansDiv = document.getElementById("ans");
+    // Create "Get Total Price" button dynamically
+    const getSumBtn = document.createElement("button");
+    getSumBtn.append("Get Total Price");
+    document.body.appendChild(getSumBtn);
 
-    getSumBtn.addEventListener("click", () => {
+    // Function to calculate total price
+    const getSum = () => {
+      const priceElements = document.querySelectorAll(".price");
       let total = 0;
-      prices.forEach(p => {
-        let val = parseFloat(p.textContent.trim());
-        if (!isNaN(val)) total += val;
-      });
-      ansDiv.textContent = total;
-    });
-  </script>
 
+      // Sum all prices (auto converts text to number)
+      priceElements.forEach((el) => {
+        const value = parseFloat(el.textContent.trim()) || 0;
+        total += value;
+      });
+
+      // Show result in #ans
+      const ansDiv = document.getElementById("ans");
+      ansDiv.textContent = total;
+
+      // Optional: also append a new row to the table
+      const table = document.getElementById("grocery-table");
+      let existingTotalRow = document.getElementById("total-row");
+      if (existingTotalRow) {
+        existingTotalRow.remove(); // remove old total row if it exists
+      }
+
+      const totalRow = document.createElement("tr");
+      totalRow.id = "total-row";
+      const totalCell = document.createElement("td");
+      totalCell.colSpan = 2;
+      totalCell.textContent = "Total Price: " + total;
+      totalRow.appendChild(totalCell);
+      table.appendChild(totalRow);
+    };
+
+    getSumBtn.addEventListener("click", getSum);
+  </script>
 </body>
 </html>
